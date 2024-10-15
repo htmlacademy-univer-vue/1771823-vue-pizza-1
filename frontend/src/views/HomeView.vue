@@ -5,7 +5,6 @@
         <CustomTitle>
           <h1 class="title title--big">Конструктор пиццы</h1>
         </CustomTitle>
-
         <div class="content__dough">
           <div class="sheet">
             <CustomTitle>
@@ -163,6 +162,12 @@ import sizes from "@/mocks/sizes.json";
 import ingredients from "@/mocks/ingredients.json";
 import sauces from "@/mocks/sauces.json";
 import CustomTitle from "@/components/CustomTitle.vue";
+import AppDrag from "@/common/components/AppDrag.vue";
+import AppDrop from "@/common/components/AppDrop.vue";
+
+const dropHandler = (transferData) => {
+  console.log(transferData);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -959,7 +964,7 @@ import CustomTitle from "@/components/CustomTitle.vue";
   &--mozzarella,
   &--mozzarella.pizza__filling--second::before,
   &--mozzarella.pizza__filling--third::after {
-    background-image: url("@assets/filling-big/mozzarella.svg");
+    background-image: url("@assets/img/filling-big/mozzarella.svg");
   }
 
   &--mushrooms,
