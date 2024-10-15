@@ -7,28 +7,7 @@
         </CustomTitle>
         <div class="content__dough">
           <div class="sheet">
-            <CustomTitle>
-              <h2 class="title title--small sheet__title">Выберите тесто</h2>
-            </CustomTitle>
-
-            <div class="sheet__content dough">
-              <label
-                v-for="doughType in dough"
-                :key="doughType.id"
-                class="dough__input"
-                :class="`dough__input--${doughType.value}`"
-              >
-                <input
-                  type="radio"
-                  name="dought"
-                  :value="doughType.value"
-                  class="visually-hidden"
-                  checked
-                />
-                <b>{{ doughType.name }}</b>
-                <span>{{ doughType.description }}</span>
-              </label>
-            </div>
+            <DoughConstructor v-model="pizzaDough"></DoughConstructor>
           </div>
         </div>
 
@@ -143,10 +122,10 @@
               <div class="pizza pizza--foundation--big-tomato">
                 <div class="pizza__wrapper">
                   <div
-                    v-for="ingrdient in pizzaIngredients"
-                    :key="ingrdient"
+                    v-for="ingredient in pizzaIngredients"
+                    :key="ingredient"
                     class="pizza__filling"
-                    :class="`pizza__filling--${ingrdient}`"
+                    :class="`pizza__filling--${ingredient}`"
                   ></div>
                 </div>
               </div>
@@ -164,7 +143,6 @@
 </template>
 
 <script setup>
-import dough from "@/mocks/dough.json";
 import sizes from "@/mocks/sizes.json";
 import ingredients from "@/mocks/ingredients.json";
 import sauces from "@/mocks/sauces.json";
@@ -172,7 +150,9 @@ import CustomTitle from "@/common/components/CustomTitle.vue";
 import AppDrag from "@/common/components/AppDrag.vue";
 import AppDrop from "@/common/components/AppDrop.vue";
 import { ref } from "vue";
+import DoughConstructor from "@/modules/Constructor/DoughConstructor.vue";
 
+const pizzaDough = ref("light");
 const pizzaIngredients = ref([]);
 
 const dropHandler = (transferData) => {
@@ -180,7 +160,7 @@ const dropHandler = (transferData) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .content {
   padding-top: 20px;
 }
@@ -655,69 +635,6 @@ const dropHandler = (transferData) => {
   &--white {
     background-color: $white;
     color: $green-500;
-  }
-}
-
-.dough__input {
-  position: relative;
-
-  margin-right: 8%;
-  margin-bottom: 20px;
-  padding-left: 50px;
-
-  cursor: pointer;
-
-  b {
-    @include r-s16-h19;
-
-    &::before {
-      @include p_center-v;
-
-      width: 36px;
-      height: 36px;
-
-      content: "";
-      transition: 0.3s;
-
-      border-radius: 50%;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-    }
-  }
-
-  span {
-    @include l-s11-h13;
-
-    display: block;
-  }
-
-  &--light {
-    b {
-      &::before {
-        background-image: url("@assets/img/dough-light.svg");
-      }
-    }
-  }
-
-  &--large {
-    b {
-      &::before {
-        background-image: url("@assets/img/dough-large.svg");
-      }
-    }
-  }
-
-  &:hover {
-    b::before {
-      box-shadow: $shadow-regular;
-    }
-  }
-
-  input {
-    &:checked + b::before {
-      box-shadow: $shadow-large;
-    }
   }
 }
 
