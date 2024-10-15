@@ -1,30 +1,29 @@
 <template>
   <CustomTitle>
-    <h2 class="title title--small sheet__title">Выберите тесто</h2>
+    <h2 class="title title--small sheet__title">Выберите размер</h2>
   </CustomTitle>
 
-  <div class="sheet__content dough">
+  <div class="sheet__content diameter">
     <label
-      v-for="doughType in dough"
-      :key="doughType.id"
-      class="dough__input"
-      :class="`dough__input--${doughType.value}`"
+      v-for="size in sizes"
+      :key="size.id"
+      class="diameter__input"
+      :class="`diameter__input--${size.value}`"
     >
       <input
         v-model="value"
         type="radio"
-        name="dought"
-        :value="doughType.value"
+        :name="size.name"
+        :value="size.value"
         class="visually-hidden"
       />
-      <b>{{ doughType.name }}</b>
-      <span>{{ doughType.description }}</span>
+      <span>{{ size.name }}</span>
     </label>
   </div>
 </template>
 
 <script setup>
-import dough from "@/mocks/dough.json";
+import sizes from "@/mocks/sizes.json";
 import CustomTitle from "@/common/components/CustomTitle.vue";
 import { computed } from "vue";
 
@@ -47,21 +46,24 @@ const value = computed({
 });
 </script>
 
-<style lang="scss">
-.dough__input {
-  position: relative;
-
-  margin-right: 8%;
+<style lang="scss" scoped>
+.diameter__input {
+  margin-right: 8.7%;
   margin-bottom: 20px;
-  padding-left: 50px;
+  padding-top: 7px;
+  padding-bottom: 6px;
 
   cursor: pointer;
 
-  b {
+  span {
     @include r-s16-h19;
 
+    position: relative;
+
+    padding-left: 46px;
+
     &::before {
-      @include p_center-v;
+      @include p_center_v;
 
       width: 36px;
       height: 36px;
@@ -70,42 +72,43 @@ const value = computed({
       transition: 0.3s;
 
       border-radius: 50%;
+      background-color: $green-100;
+      background-image: url("@assets/img/diameter.svg");
       background-repeat: no-repeat;
       background-position: center;
-      background-size: cover;
     }
   }
 
-  span {
-    @include l-s11-h13;
-
-    display: block;
+  &:nth-child(3n) {
+    margin-right: 0;
   }
 
-  &--light {
-    b {
-      &::before {
-        background-image: url("@assets/img/dough-light.svg");
-      }
+  &--small {
+    span::before {
+      background-size: 18px;
     }
   }
 
-  &--large {
-    b {
-      &::before {
-        background-image: url("@assets/img/dough-large.svg");
-      }
+  &--normal {
+    span::before {
+      background-size: 29px;
+    }
+  }
+
+  &--big {
+    span::before {
+      background-size: 100%;
     }
   }
 
   &:hover {
-    b::before {
+    span::before {
       box-shadow: $shadow-regular;
     }
   }
 
   input {
-    &:checked + b::before {
+    &:checked + span::before {
       box-shadow: $shadow-large;
     }
   }
