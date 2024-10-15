@@ -68,6 +68,8 @@ const pizzaIngredients = ref({
 const dropHandler = (transferData) => {
   pizzaIngredients.value[transferData.value]++;
 };
+
+//:-)
 </script>
 
 <style lang="scss">
