@@ -92,33 +92,35 @@
                     :key="ingredient.id"
                     class="ingredients__item"
                   >
-                    <span
-                      :class="'filling--' + ingredient.value"
-                      class="filling"
-                      >{{ ingredient.name }}</span
-                    >
+                    <AppDrag :transfer-data="{ value: ingredient.value }">
+                      <span
+                        :class="'filling--' + ingredient.value"
+                        class="filling"
+                        >{{ ingredient.name }}</span
+                      >
 
-                    <div class="counter counter--orange ingredients__counter">
-                      <button
-                        type="button"
-                        class="counter__button counter__button--minus"
-                        disabled
-                      >
-                        <span class="visually-hidden">Меньше</span>
-                      </button>
-                      <input
-                        type="text"
-                        name="counter"
-                        class="counter__input"
-                        value="0"
-                      />
-                      <button
-                        type="button"
-                        class="counter__button counter__button--plus"
-                      >
-                        <span class="visually-hidden">Больше</span>
-                      </button>
-                    </div>
+                      <div class="counter counter--orange ingredients__counter">
+                        <button
+                          type="button"
+                          class="counter__button counter__button--minus"
+                          disabled
+                        >
+                          <span class="visually-hidden">Меньше</span>
+                        </button>
+                        <input
+                          type="text"
+                          name="counter"
+                          class="counter__input"
+                          value="0"
+                        />
+                        <button
+                          type="button"
+                          class="counter__button counter__button--plus"
+                        >
+                          <span class="visually-hidden">Больше</span>
+                        </button>
+                      </div></AppDrag
+                    >
                   </li>
                 </ul>
               </div>
@@ -136,15 +138,20 @@
             />
           </label>
 
-          <div class="content__constructor">
-            <div class="pizza pizza--foundation--big-tomato">
-              <div class="pizza__wrapper">
-                <div class="pizza__filling pizza__filling--ananas"></div>
-                <div class="pizza__filling pizza__filling--bacon"></div>
-                <div class="pizza__filling pizza__filling--cheddar"></div>
+          <AppDrop @drop="(transferData) => dropHandler(transferData)">
+            <div class="content__constructor">
+              <div class="pizza pizza--foundation--big-tomato">
+                <div class="pizza__wrapper">
+                  <div
+                    v-for="ingrdient in pizzaIngredients"
+                    :key="ingrdient"
+                    class="pizza__filling"
+                    :class="`pizza__filling--${ingrdient}`"
+                  ></div>
+                </div>
               </div>
             </div>
-          </div>
+          </AppDrop>
 
           <div class="content__result">
             <p>Итого: 0 ₽</p>
@@ -161,12 +168,15 @@ import dough from "@/mocks/dough.json";
 import sizes from "@/mocks/sizes.json";
 import ingredients from "@/mocks/ingredients.json";
 import sauces from "@/mocks/sauces.json";
-import CustomTitle from "@/components/CustomTitle.vue";
+import CustomTitle from "@/common/components/CustomTitle.vue";
 import AppDrag from "@/common/components/AppDrag.vue";
 import AppDrop from "@/common/components/AppDrop.vue";
+import { ref } from "vue";
+
+const pizzaIngredients = ref([]);
 
 const dropHandler = (transferData) => {
-  console.log(transferData);
+  pizzaIngredients.value.push(transferData.value);
 };
 </script>
 
