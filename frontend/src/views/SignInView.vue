@@ -4,7 +4,7 @@
       <span class="visually-hidden">Закрыть форму авторизации</span>
     </a>
     <div class="sign-form__title">
-      <h1 class="title title--small">Авторизуйтесь на сайте</h1>
+      <CustomTitle class="title--small">Авторизуйтесь на сайте </CustomTitle>
     </div>
     <form action="test.html" method="post">
       <div class="sign-form__input">
@@ -25,6 +25,41 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import CustomTitle from "@/common/components/CustomTitle.vue";
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.sign-form {
+  @include pf_center-all;
+
+  z-index: 10;
+
+  display: block;
+
+  box-sizing: border-box;
+  width: 455px;
+  padding-top: 146px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+  padding-left: 32px;
+
+  background: $white url("@assets/img/popup.svg") no-repeat center top;
+  box-shadow: $shadow-light;
+
+  button {
+    margin: 0 auto;
+    padding: 16px 14px;
+  }
+}
+
+.sign-form__title {
+  margin-bottom: 24px;
+
+  text-align: center;
+}
+
+.sign-form__input {
+  margin-bottom: 16px;
+}
+</style>

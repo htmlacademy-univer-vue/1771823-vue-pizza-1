@@ -6,6 +6,7 @@ import CartView from "@/views/CartView.vue";
 import OrdersView from "@/views/OrdersView.vue";
 import SignInView from "@/views/SignInView.vue";
 import UserDataView from "@/views/UserDataView.vue";
+import PopupView from "@/views/PopupView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
       path: "/user-data",
       name: "UserData",
       component: UserDataView,
+    },
+    {
+      path: "/popup",
+      name: "Popup",
+      component: PopupView,
     },
   ],
 });

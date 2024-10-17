@@ -7,7 +7,7 @@
     <li><RouterLink :to="{ name: 'Cart' }">Корзина</RouterLink></li>
     <li><RouterLink :to="{ name: 'Orders' }">История заказов</RouterLink></li>
     <li>
-      <RouterLink :to="{ name: 'Index' }">Попап "Спасибо за заказ"</RouterLink>
+      <RouterLink :to="{ name: 'Popup' }">Попап "Спасибо за заказ"</RouterLink>
     </li>
     <li><RouterLink :to="{ name: 'SignIn' }">Авторизация</RouterLink></li>
     <li><RouterLink :to="{ name: 'UserData' }">Мои данные</RouterLink></li>
