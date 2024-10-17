@@ -4,7 +4,7 @@ import IndexView from "@/views/IndexView.vue";
 import WelcomeView from "@/views/WelcomeView.vue";
 import CartView from "@/views/CartView.vue";
 import OrdersView from "@/views/OrdersView.vue";
-import SignInView from "@/views/SignInView.vue";
+import LoginView from "@/views/LoginView.vue";
 import UserDataView from "@/views/UserDataView.vue";
 import PopupView from "@/views/PopupView.vue";
 
@@ -39,7 +39,7 @@ const router = createRouter({
     {
       path: "/sign-in",
       name: "SignIn",
-      component: SignInView,
+      component: LoginView,
     },
     {
       path: "/user-data",
