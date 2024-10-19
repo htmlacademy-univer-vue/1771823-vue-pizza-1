@@ -1,61 +1,57 @@
 <template>
   <AppHeader />
-  <AppLayout>
-    <router-view></router-view>
-  </AppLayout>
+  <router-view></router-view>
 </template>
 
-<script>
-import AppHeader from './layouts/AppHeader.vue';
-import AppLayout from './layouts/AppLayout.vue'
+<script setup>
+import AppHeader from "@/layouts/AppHeader.vue";
+// import AppLayout from "./layouts/AppLayout.vue";
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/app.scss";
-body {
-  justify-content: center;
-  align-items: center;
-}
-.main__wrapper {
-  padding-bottom: 30px;
+// body {
+//   justify-content: center;
+//   align-items: center;
+// }
+// .main__wrapper {
+//   padding-bottom: 30px;
 
-  background-color: $white;
-  box-shadow: $shadow-light;
+//   background-color: $white;
+//   box-shadow: $shadow-light;
 
-  h1 {
-    margin-bottom: 0;
-    padding: 0 95px;
+//   h1 {
+//     margin-bottom: 0;
+//     padding: 0 95px;
 
-    text-align: center;
+//     text-align: center;
 
-    @include b-s36-h42;
-  }
+//     @include b-s36-h42;
+//   }
 
-  p {
-    padding: 0 95px;
+//   p {
+//     padding: 0 95px;
 
-    text-align: center;
+//     text-align: center;
 
-    font-size: 20px;
-    line-height: 30px;
-  }
+//     font-size: 20px;
+//     line-height: 30px;
+//   }
 
-  b {
-    font-size: 1.2em;
-  }
-}
+//   b {
+//     font-size: 1.2em;
+//   }
+// }
 
-.main__header {
-  margin-bottom: 30px;
-  padding: 20px 0;
+// .main__header {
+//   margin-bottom: 30px;
+//   padding: 20px 0;
 
-  background-color: $green-600;
+//   background-color: $green-600;
 
-  img {
-    display: block;
+//   img {
+//     display: block;
 
-    margin: 0 auto;
-  }
-}
-
+//     margin: 0 auto;
+//   }
+// }
 </style>
