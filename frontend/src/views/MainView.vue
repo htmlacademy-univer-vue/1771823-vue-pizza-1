@@ -1,69 +1,56 @@
 <template>
-  <main class="content">
-    <form action="#" method="post">
-      <div class="content__wrapper">
-        <CustomTitle>
-          <h1 class="title title--big">Конструктор пиццы</h1>
-        </CustomTitle>
-        <div class="content__dough">
-          <div class="sheet">
-            <DoughConstructor v-model="pizzaDough" />
+  <HeaderLayout>
+    <main class="content">
+      <form action="#" method="post">
+        <div class="content__wrapper">
+          <CustomTitle>
+            <h1 class="title title--big">Конструктор пиццы</h1>
+          </CustomTitle>
+          <div class="content__dough">
+            <div class="sheet">
+              <DoughConstructor v-model="pizzaDough" />
+            </div>
           </div>
-        </div>
 
-        <div class="content__diameter">
-          <div class="sheet">
-            <DiameterConstructor v-model="pizzaDiameter" />
+          <div class="content__diameter">
+            <div class="sheet">
+              <DiameterConstructor v-model="pizzaDiameter" />
+            </div>
           </div>
-        </div>
 
-        <div class="content__ingredients">
-          <div class="sheet">
-            <IngredientConstructor
-              v-model:ingredients-value="pizzaIngredients"
-              v-model:sauce-value="pizzaSauce"
-            />
+          <div class="content__ingredients">
+            <div class="sheet">
+              <IngredientConstructor
+                v-model:ingredients-value="pizzaIngredients"
+                v-model:sauce-value="pizzaSauce"
+              />
+            </div>
           </div>
+          <PizzaConstructor
+            :drop-handler="dropHandler"
+            :pizza-ingredients="pizzaIngredients"
+            :pizza-dough="pizzaDough"
+            :pizza-sauce="pizzaSauce"
+          />
         </div>
-        <PizzaConstructor
-          :drop-handler="dropHandler"
-          :pizza-ingredients="pizzaIngredients"
-          :pizza-dough="pizzaDough"
-          :pizza-sauce="pizzaSauce"
-        />
-      </div>
-    </form>
-  </main>
+      </form>
+    </main>
+  </HeaderLayout>
 </template>
 
 <script setup>
 import CustomTitle from "@/common/components/CustomTitle.vue";
-import { ref } from "vue";
 import DoughConstructor from "@/modules/Constructor/DoughConstructor.vue";
 import DiameterConstructor from "@/modules/Constructor/DiameterConstructor.vue";
 import IngredientConstructor from "@/modules/Constructor/IngredientConstructor.vue";
 import PizzaConstructor from "@/modules/Constructor/PizzaConstructor.vue";
+import HeaderLayout from "@/layouts/HeaderLayout.vue";
+import { usePizzaStore } from "@/store/pizzaStore";
+import { storeToRefs } from "pinia";
 
-const pizzaDough = ref("light");
-const pizzaDiameter = ref("small");
-const pizzaSauce = ref("tomato");
-const pizzaIngredients = ref({
-  mushrooms: 0,
-  cheddar: 0,
-  salami: 0,
-  ham: 0,
-  ananas: 0,
-  bacon: 0,
-  onion: 0,
-  chile: 0,
-  jalapeno: 0,
-  olives: 0,
-  tomatoes: 0,
-  salmon: 0,
-  mozzarella: 0,
-  parmesan: 0,
-  blue_cheese: 0,
-});
+const { pizzaIngredients, pizzaDough, pizzaDiameter, pizzaSauce } = storeToRefs(
+  usePizzaStore()
+);
 
 const dropHandler = (transferData) => {
   pizzaIngredients.value[transferData.value]++;

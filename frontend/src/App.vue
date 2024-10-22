@@ -1,12 +1,8 @@
 <template>
-  <AppHeader />
   <router-view></router-view>
 </template>
 
-<script setup>
-import AppHeader from "@/layouts/AppHeader.vue";
-// import AppLayout from "./layouts/AppLayout.vue";
-</script>
+<script setup></script>
 
 <style lang="scss">
 // body {
