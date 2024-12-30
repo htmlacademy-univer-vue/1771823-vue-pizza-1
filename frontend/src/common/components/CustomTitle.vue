@@ -10,6 +10,11 @@
   width: 100%;
   margin: 0;
 
+  font-size: 36px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 42px;
+
   color: $black;
 
   &--big {

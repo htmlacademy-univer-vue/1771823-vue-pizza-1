@@ -44,12 +44,14 @@
 </template>
 
 <script setup>
-import sauces from "@/mocks/sauces.json";
-import ingredients from "@/mocks/ingredients.json";
+import { computed } from "vue";
+import { useDataStore } from "../../store/dataStore";
 import CustomTitle from "@/common/components/CustomTitle.vue";
 import AppDrag from "@/common/components/AppDrag.vue";
-import { computed } from "vue";
 import AppCounter from "@/common/components/AppCounter.vue";
+
+const { saucesOptions: sauces, ingredientsOptions: ingredients } =
+  useDataStore();
 
 const props = defineProps({
   sauceValue: {

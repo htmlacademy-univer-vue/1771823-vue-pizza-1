@@ -11,7 +11,11 @@
     <input v-model="value" type="text" name="counter" class="counter__input" />
     <button
       type="button"
-      class="counter__button counter__button--plus"
+      :class="[
+        'counter__button',
+        'counter__button--plus',
+        orange ? 'counter__button--orange' : '',
+      ]"
       @click="value++"
     >
       <span class="visually-hidden">Больше</span>
@@ -27,6 +31,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  orange: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue"]);
