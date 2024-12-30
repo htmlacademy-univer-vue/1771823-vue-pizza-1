@@ -2,8 +2,6 @@
   <AppHeader />
   <main class="layout">
     <AppSidebar />
-
-    <div class="layout__content"></div>
   </main>
   <slot />
 </template>

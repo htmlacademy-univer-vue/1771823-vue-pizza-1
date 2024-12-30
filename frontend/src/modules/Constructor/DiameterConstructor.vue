@@ -23,9 +23,12 @@
 </template>
 
 <script setup>
-import sizes from "@/mocks/sizes.json";
 import CustomTitle from "@/common/components/CustomTitle.vue";
 import { computed } from "vue";
+import { useDataStore } from "../../store/dataStore";
+import { storeToRefs } from "pinia";
+
+const { sizeOptions: sizes } = storeToRefs(useDataStore());
 
 const props = defineProps({
   modelValue: {

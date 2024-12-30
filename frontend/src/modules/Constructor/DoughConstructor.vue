@@ -5,7 +5,7 @@
 
   <div class="sheet__content dough">
     <label
-      v-for="doughType in dough"
+      v-for="doughType in doughOptions"
       :key="doughType.id"
       class="dough__input"
       :class="`dough__input--${doughType.value}`"
@@ -24,9 +24,12 @@
 </template>
 
 <script setup>
-import dough from "@/mocks/dough.json";
 import CustomTitle from "@/common/components/CustomTitle.vue";
+import { storeToRefs } from "pinia";
 import { computed } from "vue";
+import { useDataStore } from "../../store/dataStore";
+
+const { doughOptions } = storeToRefs(useDataStore());
 
 const props = defineProps({
   modelValue: {

@@ -15,33 +15,41 @@
             "
           />
           <img
-            src="@assets/img/users/user5@2x.jpg"
-            srcset="@assets/img/users/user5@4x.jpg"
-            alt="Василий Ложкин"
+            :src="currentUser.avatar"
+            :srcset="currentUser.avatar"
+            :alt="currentUser.name"
             width="72"
             height="72"
           />
         </picture>
         <div class="user__name">
-          <span>Василий Ложкин</span>
+          <span>{{ currentUser.name }}</span>
         </div>
         <p class="user__phone">
-          Контактный телефон: <span>+7 999-999-99-99</span>
+          Контактный телефон: <span>{{ currentUser.phone }}</span>
         </p>
       </div>
 
       <div class="layout__address">
-        <div class="sheet address-form">
+        <div
+          v-for="address in userAddresses"
+          :key="address.id"
+          class="sheet address-form"
+        >
           <div class="address-form__header">
-            <b>Адрес №1. Тест</b>
+            <b>{{ address.name }}</b>
             <div class="address-form__edit">
               <button type="button" class="icon">
                 <span class="visually-hidden">Изменить адрес</span>
               </button>
             </div>
           </div>
-          <p>Невский пр., д. 22, кв. 46</p>
-          <small>Позвоните, пожалуйста, от проходной</small>
+          <p>
+            {{
+              `${address.street}, д. ${address.building}, кв. ${address.flat}`
+            }}
+          </p>
+          <small>{{ address.comment }}</small>
         </div>
       </div>
 
@@ -132,6 +140,128 @@
 
 <script setup>
 import SidebarLayout from "@/layouts/SidebarLayout.vue";
+import { storeToRefs } from "pinia";
+import { useProfileStore } from "../store/profileStore";
+
+const { currentUser, userAddresses } = storeToRefs(useProfileStore());
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.user {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-bottom: 33px;
+}
+
+.user__name {
+  @include b-s20-h23;
+
+  margin-left: 30px;
+
+  span {
+    display: inline-block;
+
+    vertical-align: middle;
+  }
+}
+
+.user__button {
+  display: inline-block;
+
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.user__phone {
+  @include b-s16-h19;
+
+  width: 100%;
+  margin-top: 20px;
+
+  span {
+    font-weight: 400;
+  }
+}
+
+.address-form {
+  $bl: &;
+
+  position: relative;
+
+  padding-top: 0;
+  padding-bottom: 26px;
+
+  &--opened {
+    #{$bl}__header {
+      padding: 16px;
+    }
+  }
+
+  p {
+    @include r-s16-h19;
+
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding: 0 16px;
+  }
+
+  small {
+    @include l-s11-h13;
+
+    display: block;
+
+    padding: 0 16px;
+  }
+}
+
+.address-form__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  width: 80%;
+  padding: 16px;
+}
+
+.address-form__input {
+  width: 100%;
+  margin-bottom: 16px;
+
+  &--size {
+    &--normal {
+      width: 60.5%;
+    }
+
+    &--small {
+      width: 18%;
+    }
+  }
+}
+
+.address-form__buttons {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 0 16px;
+
+  button {
+    margin-left: 16px;
+    padding: 16px 27px;
+  }
+}
+
+.address-form__header {
+  @include b-s14-h16;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 21px;
+  padding: 10px 16px;
+
+  border-bottom: 1px solid rgba($green-500, 0.1);
+}
+</style>
