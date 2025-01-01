@@ -16,7 +16,13 @@
           </div>
 
           <div class="order__button">
-            <button type="button" class="button button--border">Удалить</button>
+            <button
+              type="button"
+              class="button button--border"
+              @click="deleteUserOrder(order.id)"
+            >
+              Удалить
+            </button>
           </div>
           <div class="order__button">
             <button type="button" class="button">Повторить</button>
@@ -104,7 +110,9 @@ import { useProfileStore } from "../store/profileStore";
 import { useDataStore } from "../store/dataStore";
 import { useCartStore } from "../store/cartStore";
 
-const { userOrders } = storeToRefs(useProfileStore());
+const profileStore = useProfileStore();
+const { userOrders } = storeToRefs(profileStore);
+const { deleteUserOrder } = profileStore;
 const {
   getSauceById,
   getDoughById,
