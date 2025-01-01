@@ -16,6 +16,7 @@
         'counter__button--plus',
         orange ? 'counter__button--orange' : '',
       ]"
+      :disabled="isIncrementDisabled"
       @click="value++"
     >
       <span class="visually-hidden">Больше</span>
@@ -32,6 +33,7 @@ const props = defineProps({
     required: true,
   },
   orange: Boolean,
+  isIncrementDisabled: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue"]);

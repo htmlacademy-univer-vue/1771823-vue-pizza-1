@@ -3,6 +3,7 @@
     <label class="input">
       <span class="visually-hidden">Название пиццы</span>
       <input
+        v-model="pizzaName"
         type="text"
         name="pizza_name"
         placeholder="Введите название пиццы"
@@ -14,18 +15,25 @@
         <div
           class="pizza"
           :class="`pizza--foundation--${
-            pizzaDough === 'light' ? 'small' : 'big'
-          }-${pizzaSauce}`"
+            pizzaDough === 1 ? 'small' : 'big'
+          }-${getEntityValue(pizzaSauce, 'sauce')}`"
         >
           <div class="pizza__wrapper">
             <template
-              v-for="[ingredient, value] in Object.entries(pizzaIngredients)"
+              v-for="[ingredientId, value] in Object.entries(pizzaIngredients)"
             >
               <div
                 v-if="value > 0"
-                :key="ingredient"
+                :key="ingredientId"
                 class="pizza__filling"
-                :class="`pizza__filling--${ingredient}`"
+                :class="[
+                  `pizza__filling--${getEntityValue(
+                    ingredientId,
+                    'ingredient'
+                  )}`,
+                  value > 1 ? 'pizza__filling--second' : '',
+                  value > 2 ? 'pizza__filling--third' : '',
+                ]"
               ></div>
             </template>
           </div>
@@ -34,14 +42,20 @@
     </AppDrop>
 
     <div class="content__result">
-      <p>Итого: 0 ₽</p>
-      <button type="button" class="button" disabled>Готовьте!</button>
+      <p>Итого: {{ getPizzaPrice }} ₽</p>
+      <button type="button" class="button" :disabled="pizzaName.length < 3">
+        Готовьте!
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
 import AppDrop from "@/common/components/AppDrop.vue";
+import { useDataStore } from "../../store/dataStore";
+import { storeToRefs } from "pinia";
+import { usePizzaStore } from "../../store/pizzaStore";
+import { ref } from "vue";
 
 defineProps({
   pizzaIngredients: {
@@ -49,11 +63,11 @@ defineProps({
     required: true,
   },
   pizzaDough: {
-    type: String,
+    type: Number,
     required: true,
   },
   pizzaSauce: {
-    type: String,
+    type: Number,
     required: true,
   },
   dropHandler: {
@@ -61,6 +75,11 @@ defineProps({
     required: true,
   },
 });
+
+const { getEntityValue } = storeToRefs(useDataStore());
+const { getPizzaPrice } = storeToRefs(usePizzaStore());
+
+const pizzaName = ref("");
 </script>
 
 <style lang="scss" scoped>

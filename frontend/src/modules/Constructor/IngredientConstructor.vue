@@ -15,7 +15,7 @@
           v-model="sauceValue"
           type="radio"
           name="sauce"
-          :value="sauce.value"
+          :value="sauce.id"
         />
         <span>{{ sauce.name }}</span>
       </label>
@@ -30,12 +30,24 @@
           :key="ingredient.id"
           class="ingredients__item"
         >
-          <AppDrag :transfer-data="{ value: ingredient.value }">
-            <span :class="'filling--' + ingredient.value" class="filling">
+          <AppDrag
+            :transfer-data="{
+              value: ingredient.id,
+            }"
+          >
+            <span
+              :class="[
+                'filling--' + getEntityValue(ingredient.id, 'ingredient'),
+              ]"
+              class="filling"
+            >
               {{ ingredient.name }}
             </span>
 
-            <AppCounter v-model="ingredientsValue[ingredient.value]" />
+            <AppCounter
+              v-model="ingredientsValue[ingredient.id]"
+              :is-increment-disabled="ingredientsValue[ingredient.id] >= 3"
+            />
           </AppDrag>
         </li>
       </ul>
@@ -50,12 +62,15 @@ import CustomTitle from "@/common/components/CustomTitle.vue";
 import AppDrag from "@/common/components/AppDrag.vue";
 import AppCounter from "@/common/components/AppCounter.vue";
 
-const { saucesOptions: sauces, ingredientsOptions: ingredients } =
-  useDataStore();
+const {
+  saucesOptions: sauces,
+  ingredientsOptions: ingredients,
+  getEntityValue,
+} = useDataStore();
 
 const props = defineProps({
   sauceValue: {
-    type: String,
+    type: Number,
     required: true,
   },
   ingredientsValue: {

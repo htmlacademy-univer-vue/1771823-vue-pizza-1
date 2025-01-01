@@ -29,18 +29,20 @@
                   <h2>{{ pizza.name ?? "" }}</h2>
                   <ul>
                     <li>
-                      {{ getSizeById(pizza.sizeId).name ?? "" }},
-                      {{ getDoughById(pizza.doughId).name ?? "" }}
+                      {{ getEntity(pizza.sizeId, "size").name ?? "" }},
+                      {{ getEntity(pizza.doughId, "dough").name ?? "" }}
                     </li>
-                    <li>Соус: {{ getSauceById(pizza.sauceId).name ?? "" }}</li>
+                    <li>
+                      Соус: {{ getEntity(pizza.sauceId, "sauce").name ?? "" }}
+                    </li>
                     <li>
                       Начинка:
                       {{
                         pizza.ingredients.reduce(
                           (acc, ingredient) =>
                             acc +
-                            (getIngredientById(ingredient.ingredientId).name ??
-                              ""),
+                            (getEntity(ingredient.ingredientId, "ingredient")
+                              .name ?? ""),
                           ""
                         )
                       }}
@@ -56,7 +58,7 @@
               />
 
               <div class="cart-list__price">
-                <b>{{ pizza.quantity * 782 }} ₽</b>
+                <b>{{ pizza.quantity * getSinglePizzaPrice(pizza) }} ₽</b>
               </div>
 
               <div class="cart-list__button">
@@ -75,13 +77,13 @@
                 <p class="additional-list__description">
                   <img
                     :src="`/src/assets/img/${
-                      getMiscById(misc.miscId).image
+                      getEntity(misc.miscId, 'misc').image
                     }.svg`"
                     width="39"
                     height="60"
-                    :alt="getMiscById(misc.miscId).name ?? ''"
+                    :alt="getEntity(misc.miscId, 'misc').name ?? ''"
                   />
-                  <span>{{ getMiscById(misc.miscId).name ?? "" }}</span>
+                  <span>{{ getEntity(misc.miscId, "misc").name ?? "" }}</span>
                 </p>
                 <div class="additional-list__wrapper">
                   <AppCounter
@@ -89,7 +91,7 @@
                     class="additional-list__counter"
                   ></AppCounter>
                   <div class="additional-list__price">
-                    <b>× {{ getMiscById(misc.miscId).price }} ₽</b>
+                    <b>× {{ getEntity(misc.miscId, "misc").price }} ₽</b>
                   </div>
                 </div>
               </li>
@@ -151,7 +153,7 @@
           Перейти к конструктору<br />чтоб собрать ещё одну пиццу
         </p>
         <div class="footer__price">
-          <b>Итого: 2 228 ₽</b>
+          <b>Итого: {{ getOrderPrice() }} ₽</b>
         </div>
 
         <div class="footer__submit">
@@ -167,15 +169,13 @@ import HeaderLayout from "@/layouts/HeaderLayout.vue";
 import { storeToRefs } from "pinia";
 import { useCartStore } from "../store/cartStore";
 import AppCounter from "../common/components/AppCounter.vue";
+import { useDataStore } from "../store/dataStore";
 
-const { cart } = storeToRefs(useCartStore());
-const {
-  getSauceById,
-  getDoughById,
-  getSizeById,
-  getMiscById,
-  getIngredientById,
-} = useCartStore();
+const { cart, getSinglePizzaPrice, getOrderPrice } = storeToRefs(
+  useCartStore()
+);
+
+const { getEntity } = storeToRefs(useDataStore());
 </script>
 
 <style lang="scss" scoped>

@@ -14,7 +14,7 @@
 
           <div class="content__diameter">
             <div class="sheet">
-              <DiameterConstructor v-model="pizzaDiameter" />
+              <DiameterConstructor v-model="pizzaSize" />
             </div>
           </div>
 
@@ -48,7 +48,7 @@ import HeaderLayout from "@/layouts/HeaderLayout.vue";
 import { usePizzaStore } from "@/store/pizzaStore";
 import { storeToRefs } from "pinia";
 
-const { pizzaIngredients, pizzaDough, pizzaDiameter, pizzaSauce } = storeToRefs(
+const { pizzaIngredients, pizzaDough, pizzaSize, pizzaSauce } = storeToRefs(
   usePizzaStore()
 );
 

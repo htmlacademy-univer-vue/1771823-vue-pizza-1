@@ -8,13 +8,13 @@
       v-for="doughType in doughOptions"
       :key="doughType.id"
       class="dough__input"
-      :class="`dough__input--${doughType.value}`"
+      :class="`dough__input--${getEntityValue(doughType.id, 'dough')}`"
     >
       <input
         v-model="value"
         type="radio"
-        name="dought"
-        :value="doughType.value"
+        name="dough"
+        :value="doughType.id"
         class="visually-hidden"
       />
       <b>{{ doughType.name }}</b>
@@ -29,11 +29,11 @@ import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import { useDataStore } from "../../store/dataStore";
 
-const { doughOptions } = storeToRefs(useDataStore());
+const { doughOptions, getEntityValue } = storeToRefs(useDataStore());
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
 });
