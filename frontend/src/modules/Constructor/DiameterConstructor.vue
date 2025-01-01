@@ -8,13 +8,16 @@
       v-for="size in sizes"
       :key="size.id"
       class="diameter__input"
-      :class="`diameter__input--${size.value}`"
+      :class="`diameter__input--${size.value}${getEntityValue(
+        size.id,
+        'size'
+      )}`"
     >
       <input
         v-model="value"
         type="radio"
         :name="size.name"
-        :value="size.value"
+        :value="size.id"
         class="visually-hidden"
       />
       <span>{{ size.name }}</span>
@@ -28,11 +31,11 @@ import { computed } from "vue";
 import { useDataStore } from "../../store/dataStore";
 import { storeToRefs } from "pinia";
 
-const { sizeOptions: sizes } = storeToRefs(useDataStore());
+const { sizeOptions: sizes, getEntityValue } = storeToRefs(useDataStore());
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
 });

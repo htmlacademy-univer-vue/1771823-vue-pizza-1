@@ -1,15 +1,9 @@
 import { defineStore, storeToRefs } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useDataStore } from "./dataStore";
 
 export const useCartStore = defineStore("cart", () => {
-  const {
-    saucesOptions,
-    ingredientsOptions,
-    sizeOptions,
-    miscOptions,
-    doughOptions,
-  } = storeToRefs(useDataStore());
+  const { getEntity } = storeToRefs(useDataStore());
 
   const cart = ref({
     id: 0,
@@ -29,7 +23,7 @@ export const useCartStore = defineStore("cart", () => {
             id: 0,
             pizzaId: 0,
             ingredientId: 1,
-            quantity: 0,
+            quantity: 1,
           },
         ],
       },
@@ -46,7 +40,7 @@ export const useCartStore = defineStore("cart", () => {
             id: 0,
             pizzaId: 0,
             ingredientId: 1,
-            quantity: 0,
+            quantity: 3,
           },
         ],
       },
@@ -73,28 +67,39 @@ export const useCartStore = defineStore("cart", () => {
     ],
   });
 
-  const getSauceById = (id) =>
-    saucesOptions.value.find((option) => option.id === id);
+  const getSinglePizzaPrice = computed(() => (pizza) => {
+    let ingredientsSum = 0;
 
-  const getDoughById = (id) =>
-    doughOptions.value.find((options) => options.id === id);
+    pizza.ingredients.forEach((ingredient) => {
+      ingredientsSum +=
+        getEntity.value(ingredient.ingredientId, "ingredient").price *
+        ingredient.quantity;
+    });
 
-  const getSizeById = (id) =>
-    sizeOptions.value.find((options) => options.id === id);
+    return (
+      (getEntity.value(pizza.sauceId, "sauce").price +
+        getEntity.value(pizza.doughId, "dough").price +
+        ingredientsSum) *
+      getEntity.value(pizza.sizeId, "size").multiplier
+    );
+  });
 
-  const getMiscById = (id) =>
-    miscOptions.value.find((option) => option.id === id);
-
-  const getIngredientById = (id) =>
-    ingredientsOptions.value.find((option) => option.id === id);
+  const getOrderPrice = computed(() => (order = cart.value) => {
+    return (
+      order.orderPizzas.reduce(
+        (acc, pizza) => acc + getSinglePizzaPrice.value(pizza) * pizza.quantity,
+        0
+      ) +
+      order.orderMisc.reduce(
+        (acc, misc) => acc + getEntity.value(misc.miscId, "misc").price,
+        0
+      )
+    );
+  });
 
   return {
     cart,
-
-    getSauceById,
-    getDoughById,
-    getSizeById,
-    getMiscById,
-    getIngredientById,
+    getSinglePizzaPrice,
+    getOrderPrice,
   };
 });

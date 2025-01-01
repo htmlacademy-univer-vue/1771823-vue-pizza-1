@@ -1,27 +1,46 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useDataStore } from "./dataStore";
+import { computed } from "vue";
 
 export const usePizzaStore = defineStore("pizza", () => {
-  const pizzaIngredients = ref({
-    mushrooms: 0,
-    cheddar: 0,
-    salami: 0,
-    ham: 0,
-    ananas: 0,
-    bacon: 0,
-    onion: 0,
-    chile: 0,
-    jalapeno: 0,
-    olives: 0,
-    tomatoes: 0,
-    salmon: 0,
-    mozzarella: 0,
-    parmesan: 0,
-    blue_cheese: 0,
-  });
-  const pizzaDough = ref("light");
-  const pizzaDiameter = ref("small");
-  const pizzaSauce = ref("tomato");
+  const { getIngredientById, getDoughById, getSizeById, getSauceById } =
+    useDataStore();
 
-  return { pizzaIngredients, pizzaDough, pizzaDiameter, pizzaSauce };
+  const pizzaIngredients = ref({
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+  });
+  const pizzaDough = ref(1);
+  const pizzaSize = ref(1);
+  const pizzaSauce = ref(1);
+
+  const getPizzaPrice = computed(() => {
+    let ingredientsSum = 0;
+
+    for (let [id, count] of Object.entries(pizzaIngredients.value)) {
+      ingredientsSum += getIngredientById(id).price * count;
+    }
+    return (
+      (getDoughById(pizzaDough.value).price +
+        getSauceById(pizzaSauce.value).price +
+        ingredientsSum) *
+      getSizeById(pizzaSize.value).multiplier
+    );
+  });
+
+  return { pizzaIngredients, pizzaDough, pizzaSize, pizzaSauce, getPizzaPrice };
 });
