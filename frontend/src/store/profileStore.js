@@ -167,9 +167,15 @@ export const useProfileStore = defineStore("profile", () => {
     },
   ]);
 
+  const deleteUserOrder = (id) => {
+    userOrders.value = userOrders.value.filter((order) => order.id !== id);
+  };
+
   return {
     currentUser,
     userAddresses,
     userOrders,
+
+    deleteUserOrder,
   };
 });
