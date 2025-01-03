@@ -11,24 +11,26 @@ export default class AxiosProvider {
     return "?" + queryParams.toString();
   }
   // Метод для конкретного запроса
-  request(options) {
-    const body = options.data ? JSON.stringify(options.data) : null;
+  async request(options) {
+    const data = options.data ? JSON.stringify(options.data) : null;
     return axios({
       method: options.method,
       url:
         options.baseUrl + options.path + this.computeQueryParams(options.query),
       headers: options.headers,
-      body,
+      data,
     })
       .then((response) => {
-        if (!response.ok) {
+        if (response.statusCode >= 400) {
+          console.log(response);
+
           return Promise.reject(response);
         }
         return response;
       })
       .then((response) => {
         if (response.status > 201) return Promise.resolve(response);
-        return response.json();
+        return response.data;
       })
       .then((data) => {
         return data;

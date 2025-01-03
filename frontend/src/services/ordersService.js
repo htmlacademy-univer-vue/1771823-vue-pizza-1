@@ -31,6 +31,6 @@ class OrdersService extends HttpClient {
 
 export default new OrdersService({
   httpProvider,
-  baseUrl: BASE_URL,
+  baseURL: BASE_URL,
   getToken,
 });

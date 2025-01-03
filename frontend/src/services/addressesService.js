@@ -14,7 +14,7 @@ class AddressesService extends HttpClient {
 
   async createAddress(address) {
     try {
-      return this.post("/", { data: address });
+      return this.post("/", address);
     } catch (e) {
       throw Error(e);
     }
@@ -22,7 +22,7 @@ class AddressesService extends HttpClient {
 
   async updateAddress(address) {
     try {
-      return this.put(`/${address.id}`, { data: address });
+      return this.put(`/${address.id}`, address);
     } catch (e) {
       throw Error(e);
     }
@@ -39,6 +39,6 @@ class AddressesService extends HttpClient {
 
 export default new AddressesService({
   httpProvider,
-  baseUrl: BASE_URL,
+  baseURL: BASE_URL,
   getToken,
 });
