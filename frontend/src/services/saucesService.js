@@ -16,6 +16,6 @@ class SauceService extends HttpClient {
 
 export default new SauceService({
   httpProvider,
-  base_url: BASE_URL,
+  baseURL: BASE_URL,
   getToken,
 });

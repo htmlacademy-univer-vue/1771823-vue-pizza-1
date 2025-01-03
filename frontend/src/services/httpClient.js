@@ -44,21 +44,21 @@ export class HttpClient {
 
   async get(path, options) {
     this.checkPath(path);
-    return this.httpProvider.get(path, this.buildRequest(options));
+    return await this.httpProvider.get(path, this.buildRequest(options));
   }
 
   async post(path, options) {
     this.checkPath(path);
-    return this.httpProvider.post(path, this.buildRequest(options));
+    return await this.httpProvider.post(path, this.buildRequest(options));
   }
 
   async put(path, options) {
     this.checkPath(path);
-    return this.httpProvider.put(path, this.buildRequest(options));
+    return await this.httpProvider.put(path, this.buildRequest(options));
   }
 
   async delete(path, options) {
     this.checkPath(path);
-    return this.httpProvider.delete(path, this.buildRequest(options));
+    return await this.httpProvider.delete(path, this.buildRequest(options));
   }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from "./httpClient";
-import { getToken } from "./token-manager";
+import { getToken } from "./tokenManager";
 import httpProvider from "@/services/providers";
 
 const BASE_URL = "/api";

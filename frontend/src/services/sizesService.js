@@ -16,6 +16,6 @@ class SizesService extends HttpClient {
 
 export default new SizesService({
   httpProvider,
-  base_url: BASE_URL,
+  baseURL: BASE_URL,
   getToken,
 });

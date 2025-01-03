@@ -11,17 +11,49 @@
       </RouterLink>
     </div>
     <div class="header__cart">
-      <RouterLink :to="{ name: 'Cart' }">0 ₽</RouterLink>
+      <RouterLink :to="{ name: 'Cart' }">{{ getOrderPrice() }} ₽</RouterLink>
     </div>
     <div class="header__user">
-      <RouterLink :to="{ name: 'SignIn' }" class="header__login"
+      <template v-if="isAuthenticated">
+        <a>
+          <img
+            :src="getPublicImage(getUserAttribute('avatar'))"
+            :alt="getUserAttribute('name')"
+            width="32"
+            height="32"
+          />
+          <span>{{ getUserAttribute("name") }}</span>
+        </a>
+        <a class="header__login" @click.prevent="logoutClickHandler">
+          <span>Выйти</span>
+        </a>
+      </template>
+      <RouterLink v-else :to="{ name: 'SignIn' }" class="header__login"
         ><span>Войти</span></RouterLink
       >
     </div>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "../store/authStore";
+import router from "../router";
+import { getPublicImage } from "../common/helpers";
+import { useCartStore } from "../store/cartStore";
+import { RouterLink } from "vue-router";
+
+const authStore = useAuthStore();
+const { isAuthenticated } = storeToRefs(authStore);
+const { logout, getUserAttribute } = authStore;
+
+const { getOrderPrice } = useCartStore();
+
+const logoutClickHandler = async () => {
+  await logout();
+  await router.push({ name: "SignIn" });
+};
+</script>
 
 <style lang="scss">
 .header {

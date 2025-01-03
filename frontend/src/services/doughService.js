@@ -16,6 +16,6 @@ class DoughService extends HttpClient {
 
 export default new DoughService({
   httpProvider,
-  base_url: BASE_URL,
+  baseURL: BASE_URL,
   getToken,
 });
