@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia";
 
 export default function isAuthenticated() {
   const { isAuthenticated } = storeToRefs(useAuthStore());
-  if (!isAuthenticated) {
+  if (!isAuthenticated.value) {
     return { path: "/" };
   }
   return true;

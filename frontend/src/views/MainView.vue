@@ -1,36 +1,34 @@
 <template>
-  <HeaderLayout>
-    <main class="content">
-      <form action="#" method="post">
-        <div class="content__wrapper">
-          <CustomTitle>
-            <h1 class="title title--big">Конструктор пиццы</h1>
-          </CustomTitle>
-          <div class="content__dough">
-            <div class="sheet">
-              <DoughConstructor v-model="pizzaDough" />
-            </div>
+  <main class="content">
+    <form action="#" method="post">
+      <div class="content__wrapper">
+        <CustomTitle>
+          <h1 class="title title--big">Конструктор пиццы</h1>
+        </CustomTitle>
+        <div class="content__dough">
+          <div class="sheet">
+            <DoughConstructor v-model="pizzaDough" />
           </div>
-
-          <div class="content__diameter">
-            <div class="sheet">
-              <DiameterConstructor v-model="pizzaSize" />
-            </div>
-          </div>
-
-          <div class="content__ingredients">
-            <div class="sheet">
-              <IngredientConstructor
-                v-model:ingredients-value="pizzaIngredients"
-                v-model:sauce-value="pizzaSauce"
-              />
-            </div>
-          </div>
-          <PizzaConstructor :drop-handler="dropHandler" />
         </div>
-      </form>
-    </main>
-  </HeaderLayout>
+
+        <div class="content__diameter">
+          <div class="sheet">
+            <DiameterConstructor v-model="pizzaSize" />
+          </div>
+        </div>
+
+        <div class="content__ingredients">
+          <div class="sheet">
+            <IngredientConstructor
+              v-model:ingredients-value="pizzaIngredients"
+              v-model:sauce-value="pizzaSauce"
+            />
+          </div>
+        </div>
+        <PizzaConstructor :drop-handler="dropHandler" />
+      </div>
+    </form>
+  </main>
 </template>
 
 <script setup>
@@ -39,7 +37,6 @@ import DoughConstructor from "@/modules/Constructor/DoughConstructor.vue";
 import DiameterConstructor from "@/modules/Constructor/DiameterConstructor.vue";
 import IngredientConstructor from "@/modules/Constructor/IngredientConstructor.vue";
 import PizzaConstructor from "@/modules/Constructor/PizzaConstructor.vue";
-import HeaderLayout from "@/layouts/HeaderLayout.vue";
 import { usePizzaStore } from "@/store/pizzaStore";
 import { storeToRefs } from "pinia";
 

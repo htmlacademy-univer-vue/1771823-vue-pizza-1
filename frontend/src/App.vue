@@ -1,10 +1,13 @@
 <template>
-  <router-view></router-view>
+  <AppLayout>
+    <RouterView></RouterView>
+  </AppLayout>
 </template>
 
 <script setup>
 import { onMounted } from "vue";
 import { useDataStore, useProfileStore } from "./store";
+import AppLayout from "./layouts/AppLayout.vue";
 const { fetchDough, fetchSizes, fetchSauces, fetchMisc, fetchIngredients } =
   useDataStore();
 const { fetchAddresses, fetchOrders } = useProfileStore();
