@@ -8,7 +8,7 @@
       v-for="doughType in doughOptions"
       :key="doughType.id"
       class="dough__input"
-      :class="`dough__input--${getEntityValue(doughType.id, 'dough')}`"
+      :class="`dough__input--${getEntityValue(doughType.name)}`"
     >
       <input
         v-model="value"

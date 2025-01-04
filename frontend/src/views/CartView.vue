@@ -1,19 +1,15 @@
 <template>
   <HeaderLayout>
-    <form action="test.html" method="post" class="layout-form">
+    <div class="layout-form">
       <main class="content cart">
         <div class="container">
           <div class="cart__title">
             <h1 class="title title--big">Корзина</h1>
           </div>
 
-          <!-- <div class="sheet cart__empty">
-            <p>В корзине нет ни одного товара</p>
-          </div> -->
-
-          <ul class="cart-list sheet">
+          <ul v-if="cart.pizzas.length > 0" class="cart-list sheet">
             <li
-              v-for="pizza in cart.orderPizzas"
+              v-for="pizza in cart.pizzas"
               :key="pizza.id"
               class="cart-list__item"
             >
@@ -67,18 +63,20 @@
             </li>
           </ul>
 
+          <div v-else class="sheet cart__empty">
+            <p>В корзине нет ни одной пиццы</p>
+          </div>
+
           <div class="cart__additional">
             <ul class="additional-list">
               <li
-                v-for="misc in cart.orderMisc"
+                v-for="misc in cart.misc"
                 :key="misc.id"
                 class="additional-list__item sheet"
               >
                 <p class="additional-list__description">
                   <img
-                    :src="`/src/assets/img/${
-                      getEntity(misc.miscId, 'misc').image
-                    }.svg`"
+                    :src="getPublicImage(getEntity(misc.miscId, 'misc').image)"
                     width="39"
                     height="60"
                     :alt="getEntity(misc.miscId, 'misc').name ?? ''"
@@ -112,7 +110,12 @@
 
               <label class="input input--big-label">
                 <span>Контактный телефон:</span>
-                <input type="text" name="tel" placeholder="+7 999-999-99-99" />
+                <input
+                  v-model="cart.phone"
+                  type="text"
+                  name="tel"
+                  placeholder="+7 999-999-99-99"
+                />
               </label>
 
               <div class="cart-form__address">
@@ -121,21 +124,33 @@
                 <div class="cart-form__input">
                   <label class="input">
                     <span>Улица*</span>
-                    <input type="text" name="street" />
+                    <input
+                      v-model="cart.address.street"
+                      type="text"
+                      name="street"
+                    />
                   </label>
                 </div>
 
                 <div class="cart-form__input cart-form__input--small">
                   <label class="input">
                     <span>Дом*</span>
-                    <input type="text" name="house" />
+                    <input
+                      v-model="cart.address.building"
+                      type="text"
+                      name="house"
+                    />
                   </label>
                 </div>
 
                 <div class="cart-form__input cart-form__input--small">
                   <label class="input">
                     <span>Квартира</span>
-                    <input type="text" name="apartment" />
+                    <input
+                      v-model="cart.address.flat"
+                      type="text"
+                      name="apartment"
+                    />
                   </label>
                 </div>
               </div>
@@ -145,8 +160,10 @@
       </main>
       <section class="footer">
         <div class="footer__more">
-          <a href="#" class="button button--border button--arrow"
-            >Хочу еще одну</a
+          <RouterLink
+            :to="{ name: 'Main' }"
+            class="button button--border button--arrow"
+            >Хочу еще одну</RouterLink
           >
         </div>
         <p class="footer__text">
@@ -157,10 +174,10 @@
         </div>
 
         <div class="footer__submit">
-          <button type="submit" class="button">Оформить заказ</button>
+          <button class="button" @click="sendOrder()">Оформить заказ</button>
         </div>
       </section>
-    </form>
+    </div>
   </HeaderLayout>
 </template>
 
@@ -170,10 +187,11 @@ import { storeToRefs } from "pinia";
 import { useCartStore } from "../store/cartStore";
 import AppCounter from "../common/components/AppCounter.vue";
 import { useDataStore } from "../store/dataStore";
+import { getPublicImage } from "@/common/helpers";
 
-const { cart, getSinglePizzaPrice, getOrderPrice } = storeToRefs(
-  useCartStore()
-);
+const cartStore = useCartStore();
+const { cart, getSinglePizzaPrice, getOrderPrice } = storeToRefs(cartStore);
+const { sendOrder } = cartStore;
 
 const { getEntity } = storeToRefs(useDataStore());
 </script>

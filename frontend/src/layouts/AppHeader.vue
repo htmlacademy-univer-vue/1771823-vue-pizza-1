@@ -15,7 +15,7 @@
     </div>
     <div class="header__user">
       <template v-if="isAuthenticated">
-        <a>
+        <RouterLink :to="{ name: 'UserData' }">
           <img
             :src="getPublicImage(getUserAttribute('avatar'))"
             :alt="getUserAttribute('name')"
@@ -23,7 +23,7 @@
             height="32"
           />
           <span>{{ getUserAttribute("name") }}</span>
-        </a>
+        </RouterLink>
         <a class="header__login" @click.prevent="logoutClickHandler">
           <span>Выйти</span>
         </a>

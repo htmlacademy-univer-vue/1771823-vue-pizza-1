@@ -26,12 +26,7 @@
               />
             </div>
           </div>
-          <PizzaConstructor
-            :drop-handler="dropHandler"
-            :pizza-ingredients="pizzaIngredients"
-            :pizza-dough="pizzaDough"
-            :pizza-sauce="pizzaSauce"
-          />
+          <PizzaConstructor :drop-handler="dropHandler" />
         </div>
       </form>
     </main>

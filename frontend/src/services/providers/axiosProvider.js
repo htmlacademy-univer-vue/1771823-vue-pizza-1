@@ -22,8 +22,6 @@ export default class AxiosProvider {
     })
       .then((response) => {
         if (response.statusCode >= 400) {
-          console.log(response);
-
           return Promise.reject(response);
         }
         return response;

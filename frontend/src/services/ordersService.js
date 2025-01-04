@@ -4,7 +4,7 @@ import { getToken } from "./tokenManager";
 
 const BASE_URL = "/api/orders";
 class OrdersService extends HttpClient {
-  async fetchOrders() {
+  async getOrders() {
     try {
       return this.get("/");
     } catch (e) {

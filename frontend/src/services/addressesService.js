@@ -4,7 +4,7 @@ import { getToken } from "./tokenManager";
 
 const BASE_URL = "/api/addresses";
 class AddressesService extends HttpClient {
-  async fetchAddresses() {
+  async getAddresses() {
     try {
       return this.get("/");
     } catch (e) {
@@ -14,7 +14,7 @@ class AddressesService extends HttpClient {
 
   async createAddress(address) {
     try {
-      return this.post("/", address);
+      return this.post("/", { data: address });
     } catch (e) {
       throw Error(e);
     }
@@ -22,7 +22,7 @@ class AddressesService extends HttpClient {
 
   async updateAddress(address) {
     try {
-      return this.put(`/${address.id}`, address);
+      return this.put(`/${address.id}`, { data: address });
     } catch (e) {
       throw Error(e);
     }

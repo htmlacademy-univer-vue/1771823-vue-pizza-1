@@ -16,7 +16,9 @@
           class="pizza"
           :class="`pizza--foundation--${
             pizzaDough === 1 ? 'small' : 'big'
-          }-${getEntityValue(pizzaSauce, 'sauce')}`"
+          }-${getEntityValue(
+            getEntity(pizzaSauce, 'sauce').name.toLowerCase()
+          )}`"
         >
           <div class="pizza__wrapper">
             <template
@@ -28,8 +30,7 @@
                 class="pizza__filling"
                 :class="[
                   `pizza__filling--${getEntityValue(
-                    ingredientId,
-                    'ingredient'
+                    getEntity(ingredientId, 'ingredient').name.toLowerCase()
                   )}`,
                   value > 1 ? 'pizza__filling--second' : '',
                   value > 2 ? 'pizza__filling--third' : '',
@@ -43,7 +44,12 @@
 
     <div class="content__result">
       <p>Итого: {{ getPizzaPrice }} ₽</p>
-      <button type="button" class="button" :disabled="pizzaName.length < 3">
+      <button
+        type="button"
+        class="button"
+        :disabled="pizzaName.length < 3"
+        @click="handleSubmit"
+      >
         Готовьте!
       </button>
     </div>
@@ -56,30 +62,29 @@ import { useDataStore } from "../../store/dataStore";
 import { storeToRefs } from "pinia";
 import { usePizzaStore } from "../../store/pizzaStore";
 import { ref } from "vue";
+import { useCartStore } from "../../store/cartStore";
+import router from "../../router";
 
 defineProps({
-  pizzaIngredients: {
-    type: Object,
-    required: true,
-  },
-  pizzaDough: {
-    type: Number,
-    required: true,
-  },
-  pizzaSauce: {
-    type: Number,
-    required: true,
-  },
   dropHandler: {
     type: Function,
     required: true,
   },
 });
 
-const { getEntityValue } = storeToRefs(useDataStore());
-const { getPizzaPrice } = storeToRefs(usePizzaStore());
+const { getEntityValue, getEntity } = storeToRefs(useDataStore());
+const { getPizzaPrice, pizzaIngredients, pizzaDough, pizzaSauce } = storeToRefs(
+  usePizzaStore()
+);
+const { addPizzaToCart } = useCartStore();
 
 const pizzaName = ref("");
+
+const handleSubmit = () => {
+  addPizzaToCart(pizzaName);
+
+  router.push({ name: "Cart" });
+};
 </script>
 
 <style lang="scss" scoped>
