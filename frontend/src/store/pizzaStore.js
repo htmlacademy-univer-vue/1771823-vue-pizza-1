@@ -7,23 +7,7 @@ export const usePizzaStore = defineStore("pizza", () => {
   const { getIngredientById, getDoughById, getSizeById, getSauceById } =
     useDataStore();
 
-  const pizzaIngredients = ref({
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-    11: 0,
-    12: 0,
-    13: 0,
-    14: 0,
-    15: 0,
-  });
+  const pizzaIngredients = ref({});
   const pizzaDough = ref(1);
   const pizzaSize = ref(1);
   const pizzaSauce = ref(1);

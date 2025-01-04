@@ -19,13 +19,15 @@
             <button
               type="button"
               class="button button--border"
-              @click="deleteUserOrder(order.id)"
+              @click="deleteOrder(order.id)"
             >
               Удалить
             </button>
           </div>
           <div class="order__button">
-            <button type="button" class="button">Повторить</button>
+            <button type="button" class="button" @click="repeatOrder(order)">
+              Повторить
+            </button>
           </div>
         </div>
 
@@ -76,7 +78,7 @@
         <ul class="order__additional">
           <li v-for="misc in order.orderMisc" :key="misc.id">
             <img
-              :src="`/src/assets/img/${getMiscById(misc.miscId).image}.svg`"
+              :src="getPublicImage(getMiscById(misc.miscId).image)"
               width="20"
               height="30"
               :alt="getMiscById(misc.miscId).name"
@@ -95,8 +97,10 @@
         </ul>
 
         <p class="order__address">
-          Адрес доставки: {{ order.orderAddress.name }} (или если адрес новый -
-          писать целиком)
+          Адрес доставки:
+          {{
+            userAddresses.find((address) => address.id === order.addressId).name
+          }}
         </p>
       </section>
     </div>
@@ -105,14 +109,15 @@
 
 <script setup>
 import SidebarLayout from "@/layouts/SidebarLayout.vue";
+import { getPublicImage } from "@/common/helpers";
 import { storeToRefs } from "pinia";
 import { useProfileStore } from "../store/profileStore";
 import { useDataStore } from "../store/dataStore";
 import { useCartStore } from "../store/cartStore";
 
 const profileStore = useProfileStore();
-const { userOrders } = storeToRefs(profileStore);
-const { deleteUserOrder } = profileStore;
+const { userOrders, getOrderPrice, userAddresses } = storeToRefs(profileStore);
+const { deleteOrder, repeatOrder } = profileStore;
 const {
   getSauceById,
   getDoughById,
@@ -121,7 +126,7 @@ const {
   getIngredientById,
 } = useDataStore();
 
-const { getSinglePizzaPrice, getOrderPrice } = storeToRefs(useCartStore());
+const { getSinglePizzaPrice } = storeToRefs(useCartStore());
 </script>
 
 <style lang="scss" scoped>

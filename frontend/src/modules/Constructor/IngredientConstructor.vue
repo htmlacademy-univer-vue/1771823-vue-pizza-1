@@ -37,18 +37,18 @@
           >
             <span
               :class="[
-                'filling--' + getEntityValue(ingredient.id, 'ingredient'),
+                'filling--' + getEntityValue(ingredient.name.toLowerCase()),
               ]"
               class="filling"
             >
               {{ ingredient.name }}
             </span>
-
-            <AppCounter
-              v-model="ingredientsValue[ingredient.id]"
-              :is-increment-disabled="ingredientsValue[ingredient.id] >= 3"
-            />
           </AppDrag>
+
+          <AppCounter
+            v-model="ingredientsValue[ingredient.id]"
+            :is-increment-disabled="ingredientsValue[ingredient.id] >= 3"
+          />
         </li>
       </ul>
     </div>

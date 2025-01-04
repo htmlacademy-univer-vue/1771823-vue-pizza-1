@@ -8,10 +8,7 @@
       v-for="size in sizes"
       :key="size.id"
       class="diameter__input"
-      :class="`diameter__input--${size.value}${getEntityValue(
-        size.id,
-        'size'
-      )}`"
+      :class="`diameter__input--${size.value}${getEntityValue(size.name)}`"
     >
       <input
         v-model="value"
