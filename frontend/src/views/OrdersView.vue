@@ -52,7 +52,7 @@
                     {{ getDoughById(pizza.doughId).name }}
                   </li>
                   <li>Соус: {{ getSauceById(pizza.sauceId).name }}</li>
-                  <li>
+                  <li v-if="pizza.ingredients">
                     Начинка:
                     {{
                       pizza.ingredients

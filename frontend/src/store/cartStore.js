@@ -41,11 +41,13 @@ export const useCartStore = defineStore("cart", () => {
   const getSinglePizzaPrice = computed(() => (pizza) => {
     let ingredientsSum = 0;
 
-    pizza.ingredients.forEach((ingredient) => {
-      ingredientsSum +=
-        getEntity.value(ingredient.ingredientId, "ingredient").price *
-        ingredient.quantity;
-    });
+    if (pizza.ingredients) {
+      pizza.ingredients.forEach((ingredient) => {
+        ingredientsSum +=
+          getEntity.value(ingredient.ingredientId, "ingredient").price *
+          ingredient.quantity;
+      });
+    }
 
     return (
       (getEntity.value(pizza.sauceId, "sauce").price +
