@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__logo">
-      <RouterLink :to="{ name: 'Index' }" class="logo">
+      <RouterLink :to="{ name: 'Main' }" class="logo">
         <img
           src="@assets/img/logo.svg"
           alt="V!U!E! Pizza logo"

@@ -17,8 +17,12 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "Index",
-      component: IndexView,
+      name: "Main",
+      component: MainView,
+      meta: {
+        middlewares: [isAuthenticated],
+        layout: HeaderLayout,
+      },
     },
     {
       path: "/welcome",
@@ -26,18 +30,11 @@ const router = createRouter({
       component: WelcomeView,
     },
     {
-      path: "/main",
-      name: "Main",
-      component: MainView,
-      meta: {
-        layout: HeaderLayout,
-      },
-    },
-    {
       path: "/cart",
       name: "Cart",
       component: CartView,
       meta: {
+        middlewares: [isAuthenticated],
         layout: HeaderLayout,
       },
     },

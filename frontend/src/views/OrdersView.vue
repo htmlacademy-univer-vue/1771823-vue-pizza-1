@@ -3,106 +3,110 @@
     <div class="layout__title">
       <h1 class="title title--big">История заказов</h1>
     </div>
-
-    <section v-for="order in userOrders" :key="order.id" class="sheet order">
-      <div class="order__wrapper">
-        <div class="order__number">
-          <b>Заказ #{{ order.id }}</b>
-        </div>
-
-        <div class="order__sum">
-          <span>Сумма заказа: {{ getOrderPrice(order) }} ₽</span>
-        </div>
-
-        <div class="order__button">
-          <button
-            type="button"
-            class="button button--border"
-            @click="deleteOrder(order.id)"
-          >
-            Удалить
-          </button>
-        </div>
-        <div class="order__button">
-          <button type="button" class="button" @click="repeatOrder(order)">
-            Повторить
-          </button>
-        </div>
-      </div>
-
-      <ul class="order__list">
-        <li
-          v-for="pizza in order.orderPizzas"
-          :key="pizza.id"
-          class="order__item"
-        >
-          <div class="product">
-            <img
-              src="@assets/img/product.svg"
-              class="product__img"
-              width="56"
-              height="56"
-              :alt="pizza.name"
-            />
-            <div class="product__text">
-              <h2>{{ pizza.name }}</h2>
-              <ul>
-                <li>
-                  {{ getSizeById(pizza.sizeId).name }},
-                  {{ getDoughById(pizza.doughId).name }}
-                </li>
-                <li>Соус: {{ getSauceById(pizza.sauceId).name }}</li>
-                <li>
-                  Начинка:
-                  {{
-                    pizza.ingredients
-                      .map(
-                        (ingredient) =>
-                          getIngredientById(ingredient.ingredientId).name
-                      )
-                      .join(", ")
-                  }}
-                </li>
-              </ul>
-            </div>
+    <template v-if="userOrders.length > 0">
+      <section v-for="order in userOrders" :key="order.id" class="sheet order">
+        <div class="order__wrapper">
+          <div class="order__number">
+            <b>Заказ #{{ order.id }}</b>
           </div>
 
-          <p class="order__price">
-            {{ pizza.quantity > 1 ? `${pizza.quantity}x` : ""
-            }}{{ getSinglePizzaPrice(pizza) }} ₽
-          </p>
-        </li>
-      </ul>
+          <div class="order__sum">
+            <span>Сумма заказа: {{ getOrderPrice(order) }} ₽</span>
+          </div>
 
-      <ul class="order__additional">
-        <li v-for="misc in order.orderMisc" :key="misc.id">
-          <img
-            :src="getPublicImage(getMiscById(misc.miscId).image)"
-            width="20"
-            height="30"
-            :alt="getMiscById(misc.miscId).name"
-          />
-          <p>
-            <span>{{ getMiscById(misc.miscId).name }}</span>
-            <b
-              >{{
-                getMiscById(misc.miscId).quantity > 1
-                  ? `${getMiscById(misc.miscId).quantity}x`
-                  : ""
-              }}{{ getMiscById(misc.miscId).price }} ₽</b
+          <div class="order__button">
+            <button
+              type="button"
+              class="button button--border"
+              @click="deleteOrder(order.id)"
             >
-          </p>
-        </li>
-      </ul>
+              Удалить
+            </button>
+          </div>
+          <div class="order__button">
+            <button type="button" class="button" @click="repeatOrder(order)">
+              Повторить
+            </button>
+          </div>
+        </div>
 
-      <p class="order__address">
-        Адрес доставки:
-        {{ order.addressId }}
-        {{
-          userAddresses.find((address) => address.id === order.addressId).name
-        }}
-      </p>
-    </section>
+        <ul class="order__list">
+          <li
+            v-for="pizza in order.orderPizzas"
+            :key="pizza.id"
+            class="order__item"
+          >
+            <div class="product">
+              <img
+                src="@assets/img/product.svg"
+                class="product__img"
+                width="56"
+                height="56"
+                :alt="pizza.name"
+              />
+              <div class="product__text">
+                <h2>{{ pizza.name }}</h2>
+                <ul>
+                  <li>
+                    {{ getSizeById(pizza.sizeId).name }},
+                    {{ getDoughById(pizza.doughId).name }}
+                  </li>
+                  <li>Соус: {{ getSauceById(pizza.sauceId).name }}</li>
+                  <li>
+                    Начинка:
+                    {{
+                      pizza.ingredients
+                        .map(
+                          (ingredient) =>
+                            getIngredientById(ingredient.ingredientId).name
+                        )
+                        .join(", ")
+                    }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="order__price">
+              {{ pizza.quantity > 1 ? `${pizza.quantity}x` : ""
+              }}{{ getSinglePizzaPrice(pizza) }} ₽
+            </p>
+          </li>
+        </ul>
+
+        <ul class="order__additional">
+          <li v-for="misc in order.orderMisc" :key="misc.id">
+            <img
+              :src="getPublicImage(getMiscById(misc.miscId).image)"
+              width="20"
+              height="30"
+              :alt="getMiscById(misc.miscId).name"
+            />
+            <p>
+              <span>{{ getMiscById(misc.miscId).name }}</span>
+              <b
+                >{{
+                  getMiscById(misc.miscId).quantity > 1
+                    ? `${getMiscById(misc.miscId).quantity}x`
+                    : ""
+                }}{{ getMiscById(misc.miscId).price }} ₽</b
+              >
+            </p>
+          </li>
+        </ul>
+
+        <p class="order__address">
+          Адрес доставки:
+          {{ order.addressId }}
+          {{
+            userAddresses.find((address) => address.id === order.addressId).name
+          }}
+        </p>
+      </section>
+    </template>
+    <div v-else class="sheet cart__empty">
+      <p>В истории нет ни одного заказа</p>
+    </div>
   </div>
 </template>
 
@@ -256,5 +260,9 @@ const { getSinglePizzaPrice } = storeToRefs(useCartStore());
     @include clear-list;
     @include l-s11-h13;
   }
+}
+
+.cart__empty {
+  padding: 20px 30px;
 }
 </style>

@@ -9,11 +9,10 @@ import router from "../router";
 
 export const useCartStore = defineStore("cart", () => {
   const { getEntity } = storeToRefs(useDataStore());
-  const { getUserAttribute } = useAuthStore();
+  const { getUserAttribute } = storeToRefs(useAuthStore());
 
   const initialCart = {
-    userId: getUserAttribute("id"),
-    phone: getUserAttribute("phone"),
+    phone: getUserAttribute.value("phone"),
     address: {
       street: "222",
       building: "222",
@@ -99,10 +98,17 @@ export const useCartStore = defineStore("cart", () => {
     const profileStore = useProfileStore();
     const { fetchOrders, fetchAddresses } = profileStore;
 
-    const response = await ordersService.createOrder(cart.value);
+    console.log(cart.value);
+
+    const response = await ordersService.createOrder({
+      userId: getUserAttribute.value("id"),
+      ...cart.value,
+    });
 
     if (response) {
-      cart.value = { ...initialCart };
+      cart.value = {
+        ...initialCart,
+      };
 
       await fetchOrders();
       await fetchAddresses();
