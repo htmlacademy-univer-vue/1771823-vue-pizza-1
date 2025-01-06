@@ -100,8 +100,6 @@ export const useCartStore = defineStore("cart", () => {
     const profileStore = useProfileStore();
     const { fetchOrders, fetchAddresses } = profileStore;
 
-    console.log(cart.value);
-
     const response = await ordersService.createOrder({
       userId: getUserAttribute.value("id"),
       ...cart.value,

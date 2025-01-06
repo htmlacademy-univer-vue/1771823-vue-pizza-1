@@ -181,9 +181,9 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-import { useCartStore } from "../store/cartStore";
+import { useCartStore } from "../store";
 import AppCounter from "../common/components/AppCounter.vue";
-import { useDataStore } from "../store/dataStore";
+import { useDataStore } from "../store";
 import { getPublicImage } from "@/common/helpers";
 
 const cartStore = useCartStore();
