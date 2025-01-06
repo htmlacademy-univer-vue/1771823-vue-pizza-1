@@ -9,12 +9,10 @@ import router from "../router";
 
 export const useCartStore = defineStore("cart", () => {
   const { getEntity } = storeToRefs(useDataStore());
-  const { getUserAttribute } = useAuthStore();
-  const { fetchOrders } = useProfileStore();
+  const { getUserAttribute } = storeToRefs(useAuthStore());
 
-  const cart = ref({
-    userId: getUserAttribute("id"),
-    phone: getUserAttribute("phone"),
+  const initialCart = {
+    phone: getUserAttribute.value("phone"),
     address: {
       street: "222",
       building: "222",
@@ -36,16 +34,20 @@ export const useCartStore = defineStore("cart", () => {
         quantity: 0,
       },
     ],
-  });
+  };
+
+  const cart = ref({ ...initialCart });
 
   const getSinglePizzaPrice = computed(() => (pizza) => {
     let ingredientsSum = 0;
 
-    pizza.ingredients.forEach((ingredient) => {
-      ingredientsSum +=
-        getEntity.value(ingredient.ingredientId, "ingredient").price *
-        ingredient.quantity;
-    });
+    if (pizza.ingredients) {
+      pizza.ingredients.forEach((ingredient) => {
+        ingredientsSum +=
+          getEntity.value(ingredient.ingredientId, "ingredient").price *
+          ingredient.quantity;
+      });
+    }
 
     return (
       (getEntity.value(pizza.sauceId, "sauce").price +
@@ -95,10 +97,24 @@ export const useCartStore = defineStore("cart", () => {
   };
 
   const sendOrder = async () => {
-    await ordersService.createOrder(cart.value);
+    const profileStore = useProfileStore();
+    const { fetchOrders, fetchAddresses } = profileStore;
 
-    await fetchOrders();
-    router.push({ name: "Orders" });
+    const response = await ordersService.createOrder({
+      userId: getUserAttribute.value("id"),
+      ...cart.value,
+    });
+
+    if (response) {
+      cart.value = {
+        ...initialCart,
+      };
+
+      await fetchOrders();
+      await fetchAddresses();
+
+      router.push({ name: "Orders" });
+    }
   };
 
   return {

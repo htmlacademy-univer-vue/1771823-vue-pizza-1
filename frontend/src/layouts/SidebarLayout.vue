@@ -3,6 +3,7 @@
   <main class="layout">
     <AppSidebar />
   </main>
+
   <slot />
 </template>
 

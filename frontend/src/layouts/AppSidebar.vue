@@ -1,6 +1,6 @@
 <template>
   <div class="layout__sidebar sidebar">
-    <RouterLink :to="{ name: 'Index' }" class="logo layout__logo">
+    <RouterLink :to="{ name: 'Main' }" class="logo layout__logo">
       <img
         src="@assets/img/logo.svg"
         alt="V!U!E! Pizza logo"

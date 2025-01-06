@@ -1,10 +1,9 @@
 <template>
-  <SidebarLayout>
-    <div class="layout__content">
-      <div class="layout__title">
-        <h1 class="title title--big">История заказов</h1>
-      </div>
-
+  <div class="layout__content">
+    <div class="layout__title">
+      <h1 class="title title--big">История заказов</h1>
+    </div>
+    <template v-if="userOrders.length > 0">
       <section v-for="order in userOrders" :key="order.id" class="sheet order">
         <div class="order__wrapper">
           <div class="order__number">
@@ -53,7 +52,7 @@
                     {{ getDoughById(pizza.doughId).name }}
                   </li>
                   <li>Соус: {{ getSauceById(pizza.sauceId).name }}</li>
-                  <li>
+                  <li v-if="pizza.ingredients">
                     Начинка:
                     {{
                       pizza.ingredients
@@ -98,17 +97,20 @@
 
         <p class="order__address">
           Адрес доставки:
+          {{ order.addressId }}
           {{
             userAddresses.find((address) => address.id === order.addressId).name
           }}
         </p>
       </section>
+    </template>
+    <div v-else class="sheet cart__empty">
+      <p>В истории нет ни одного заказа</p>
     </div>
-  </SidebarLayout>
+  </div>
 </template>
 
 <script setup>
-import SidebarLayout from "@/layouts/SidebarLayout.vue";
 import { getPublicImage } from "@/common/helpers";
 import { storeToRefs } from "pinia";
 import { useProfileStore } from "../store/profileStore";
@@ -118,6 +120,7 @@ import { useCartStore } from "../store/cartStore";
 const profileStore = useProfileStore();
 const { userOrders, getOrderPrice, userAddresses } = storeToRefs(profileStore);
 const { deleteOrder, repeatOrder } = profileStore;
+
 const {
   getSauceById,
   getDoughById,
@@ -257,5 +260,9 @@ const { getSinglePizzaPrice } = storeToRefs(useCartStore());
     @include clear-list;
     @include l-s11-h13;
   }
+}
+
+.cart__empty {
+  padding: 20px 30px;
 }
 </style>
